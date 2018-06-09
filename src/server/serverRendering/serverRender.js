@@ -1,7 +1,9 @@
 import routes from "../../shared/routes";
 import serialize from "serialize-javascript";
 import {renderToString} from "react-dom/server";
+import React from "react";
 import htmlReplace from "../htmlReplace";
+import App from "../../shared/App";
 import {StaticRouter, matchPath} from "react-router-dom";
 
 export default (req, res, next) => {

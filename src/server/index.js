@@ -11,9 +11,7 @@ const logger = require('./winston-configurer');
 const errorHandler = require('./errorHandler');
 const onError = require('./onError');
 const allowCrossDomain = require('./allowCrossDomain');
-const addressRoute = require('./routes/addressRoute');
 const userRoute = require('./routes/userRoute');
-const morgan = require('morgan');
 const app = express();
 const http = require('http');
 
@@ -23,15 +21,9 @@ createConnection().then(() => {
     app.use(cors());
     app.use(allowCrossDomain);
     app.use(express.static("public"));
-
-    //Requests logging
-    app.use(morgan);
-
+    app.get("*", serverRender);
     // error handler
     app.use(errorHandler);
-    app.use("/entityUser", userRoute);
-    app.use("/entityAddress", addressRoute);
-    app.get("*", serverRender);
 
     /**
      * Create HTTP server.
