@@ -1,0 +1,14 @@
+.footer {
+  background-color: #ff5722;
+  height: 6%;
+  z-index: 10;
+  position:relative;
+}
+
+.footer-text {
+  margin: 0;
+}
+
+.footer-hide {
+  display:none;
+}

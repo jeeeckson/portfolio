@@ -9,39 +9,12 @@
     "database": "portfolio",
     "autoSchemaSync": true,
     "entities": [
-      "src/server/entities/*.js"
-    ],
-    "subscribers": [
-      "src/server/subscriber/*.js,"
-    ],
-    "migrations": [
-      "src/server/migration/*.js"
+      "server/entities/*.js"
     ],
     "cli": {
-      "entitiesDir": "src/server/entity",
-      "migrationsDir": "src/server/migration",
-      "subscribersDir": "src/server/subscriber"
+      "entitiesDir": "server/entities"
     },
-    "logging": {
-      "logQueries": true
-    }
-  },
-  {
-    "name": "default",
-    "driver": {
-      "type": "mysql",
-      "host": "localhost",
-      "port": 3306,
-      "username": "root",
-      "password": "root",
-      "database": "portFolioTest"
-    },
-    "autoSchemaSync": true,
-    "dropSchemaOnConnection": true,
-    "entities": [
-    ],
-    "logging": {
-      "logQueries": true
-    }
+    "synchronize": true,
+    "logging": true
   }
 ]

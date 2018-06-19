@@ -122,3 +122,13 @@ files
 /nbproject/project.properties
 /nbproject/project.properties
 /nbproject/project.xml
+
+node_modules
+npm-debug.log
+.tmp
+.idea
+public
+compiled
+*.swp
+.vscode
+

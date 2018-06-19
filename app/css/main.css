@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  color: black;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+.app {
+  height: 100%;
+  font-weight: normal;
+  font-smoothing: antialiased;
+  font-family: 'Roboto', sans-serif;
+}
+
+.content-wrapper {
+  height:calc(100% - 64px);
+}
+
+.content-wrapper > div {
+  height: 100%;
+}
+
+div[data-reactroot] {
+    height: 100%;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
