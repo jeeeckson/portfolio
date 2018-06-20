@@ -5,16 +5,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const { Entity, PrimaryColumn, Column } = require("typeorm");
+exports.__esModule = true;
+var _a = require("typeorm"), Entity = _a.Entity, PrimaryColumn = _a.PrimaryColumn, Column = _a.Column;
 /**
  * Represents a User that might be use the application can be an admin
  * with more privileges or a simple user.
  */
-let User = class User {
+var User = /** @class */ (function () {
     /**
      * Constructor with mandatory parameters.
      * Any parameter cannot be null.
@@ -22,7 +19,7 @@ let User = class User {
      * @param password {string}  password of the user, cannot be null.
      * @param admin {boolean}  specify if is admin or user, cannot be null.
      */
-    constructor(username, password, admin) {
+    function User(username, password, admin) {
         if (!arguments.length) {
             return;
         }
@@ -30,54 +27,42 @@ let User = class User {
         this.password = password;
         this.admin = admin ? 1 : 0;
     }
-};
-__decorate([
-    PrimaryColumn("int"),
-    __metadata("design:type", Number)
-], User.prototype, "id", void 0);
-__decorate([
-    Column("text"),
-    __metadata("design:type", String)
-], User.prototype, "username", void 0);
-__decorate([
-    Column("text", { nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "password", void 0);
-__decorate([
-    Column("int"),
-    __metadata("design:type", Number)
-], User.prototype, "admin", void 0);
-__decorate([
-    Column("text"),
-    __metadata("design:type", String)
-], User.prototype, "name", void 0);
-__decorate([
-    Column("text"),
-    __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
-__decorate([
-    Column("int"),
-    __metadata("design:type", Number)
-], User.prototype, "age", void 0);
-__decorate([
-    Column("text"),
-    __metadata("design:type", String)
-], User.prototype, "route", void 0);
-__decorate([
-    Column("text", { nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "number", void 0);
-__decorate([
-    Column("int"),
-    __metadata("design:type", Number)
-], User.prototype, "state", void 0);
-__decorate([
-    Column("int"),
-    __metadata("design:type", Number)
-], User.prototype, "city", void 0);
-User = __decorate([
-    Entity("users"),
-    __metadata("design:paramtypes", [String, String, Boolean])
-], User);
+    __decorate([
+        PrimaryColumn("int")
+    ], User.prototype, "id");
+    __decorate([
+        Column("text")
+    ], User.prototype, "username");
+    __decorate([
+        Column("text", { nullable: true })
+    ], User.prototype, "password");
+    __decorate([
+        Column("int")
+    ], User.prototype, "admin");
+    __decorate([
+        Column("text")
+    ], User.prototype, "name");
+    __decorate([
+        Column("text")
+    ], User.prototype, "lastName");
+    __decorate([
+        Column("int")
+    ], User.prototype, "age");
+    __decorate([
+        Column("text")
+    ], User.prototype, "route");
+    __decorate([
+        Column("text", { nullable: true })
+    ], User.prototype, "number");
+    __decorate([
+        Column("int")
+    ], User.prototype, "state");
+    __decorate([
+        Column("int")
+    ], User.prototype, "city");
+    User = __decorate([
+        Entity("users")
+    ], User);
+    return User;
+}());
 exports.User = User;
-//# sourceMappingURL=User.js.map

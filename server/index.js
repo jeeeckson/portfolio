@@ -1,4 +1,5 @@
 import express from 'express';
+import 'reflect-metadata';
 import webpack from 'webpack';
 import {isDebug} from '../config/app';
 import initPassport from './init/passport';
@@ -6,8 +7,8 @@ import initExpress from './init/express';
 import initRoutes from './init/routes';
 import renderMiddleware from './render/middleware';
 import {User} from './entities/User';
+import {Event} from "./entities/Event";
 
-require('reflect-metadata');
 const {createConnection} = require('typeorm');
 const app = express();
 
@@ -21,7 +22,7 @@ createConnection({
     "database": "portfolio",
     "autoSchemaSync": true,
     "entities": [
-        User
+        User, Event
     ],
     "synchronize": true,
     "logging": true
