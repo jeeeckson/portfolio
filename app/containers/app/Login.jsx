@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Send from 'material-ui-icons/Send';
+import Send from '@material-ui/icons/Send';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {manualLogin} from '../../actions/users';

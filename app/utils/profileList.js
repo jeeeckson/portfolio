@@ -1,9 +1,9 @@
-import InboxIcon from 'material-ui-icons/MoveToInbox';
-import SettingsIcon from 'material-ui-icons/Settings';
-import PersonIcon from 'material-ui-icons/Person';
-import LobbyIcon from 'material-ui-icons/Tab';
-import StatisticsIcon from 'material-ui-icons/DataUsage';
-import FriendsIcon from 'material-ui-icons/PersonAdd';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
+import LobbyIcon from '@material-ui/icons/Tab';
+import StatisticsIcon from '@material-ui/icons/DataUsage';
+import FriendsIcon from '@material-ui/icons/PersonAdd';
 
 const profileList = [
   {

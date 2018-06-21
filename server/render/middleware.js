@@ -1,4 +1,4 @@
-import {createMemoryHistory, match} from 'react-router';
+import {match} from 'react-router';
 import createRoutes from '../../app/routes';
 import configureStore from '../../app/store/configureStore';
 import * as types from '../../app/types';
@@ -11,17 +11,8 @@ import fetchDataForRoute from '../../app/utils/fetchDataForRoute';
  * and pass it into the Router.run function.
  */
 export default function render(req, res) {
-    const authenticated = req.isAuthenticated();
-    const profile = authenticated ? req.user : {};
-    const history = createMemoryHistory();
-    const store = configureStore({
-        user: {
-            profile,
-            authenticated,
-            isWaiting: false,
-            message: '',
-        }
-    }, history);
+    // Create a store (with a memory history) from our current url
+    const {store} = configureStore(req.url);
     const routes = createRoutes(store);
 
     /*
@@ -57,7 +48,7 @@ export default function render(req, res) {
             fetchDataForRoute(props)
                 .then((data) => {
                     store.dispatch({type: types.REQUEST_SUCCESS, data});
-                    const html = pageRenderer(store, props);
+                    const html = pageRenderer(store, props, req.url);
                     res.status(200).send(html);
                 })
                 .catch((err) => {

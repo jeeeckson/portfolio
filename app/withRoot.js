@@ -1,7 +1,7 @@
 import React from 'react';
-import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
-import {deepPurple} from 'material-ui/colors';
-import createPalette from 'material-ui/styles/createPalette';
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
+import {deepPurple} from '@material-ui/core/colors';
+import createPalette from '@material-ui/core/styles/createPalette';
 //import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Needed for material onTouchTap

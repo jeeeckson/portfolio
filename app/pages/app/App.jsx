@@ -1,12 +1,24 @@
-import React from 'react';
+// The basics
+import React, {Component} from 'react';
+
 import Page from '../Page';
-import AppContainer from '../../containers/app/App';
-import { title, meta, link } from '../assets';
+import createRoutes from "../../routes";
+import {title, meta, link} from '../assets';
+const Routes = createRoutes();
 
-const App = props => (
-  <Page title={title} meta={meta} link={link}>
-    <AppContainer {...props} />
-  </Page>
-);
+class App extends Component {
 
+    render() {
+        return (
+            <div id="app">
+
+                <Page title={title} meta={meta} link={link}>
+                </Page>
+                <div id="content">
+                    <Routes/>
+                </div>
+            </div>
+        );
+    }
+}
 export default App;

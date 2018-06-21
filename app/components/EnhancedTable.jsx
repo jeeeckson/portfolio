@@ -7,10 +7,10 @@ import Table, {
     TableFooter,
     TablePagination,
     TableRow,
-} from 'material-ui/Table';
-import Paper from 'material-ui/Paper';
+} from '@material-ui/core/Table';
+import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
-import Checkbox from 'material-ui/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox';
 import EnhancedTableHead from '../components/EnhancedTableHead';
 import EnhancedTableToolbar from '../components/EnhancedTableToolbar';
 import commonStyles from '../css/components/enhancedtable.css';

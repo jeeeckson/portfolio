@@ -1,6 +1,6 @@
-import InboxIcon from 'material-ui-icons/MoveToInbox';
-import SettingsIcon from 'material-ui-icons/Settings';
-import PersonIcon from 'material-ui-icons/Person';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
 
 const profileList = [
   {

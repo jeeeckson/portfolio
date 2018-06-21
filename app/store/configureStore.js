@@ -1,39 +1,65 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
-import thunk from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+import {createLogger} from 'redux-logger';
 import rootReducer from '../reducers';
-import { isClient, isDebug } from '../../config/app';
+import {isClient, isDebug} from '../../config/app';
 
-/*
- * @param {Object} initial state to bootstrap our stores with for server-side rendering
- * @param {History Object} a history object. We use `createMemoryHistory` for server-side rendering,
- *                          while using browserHistory for client-side
- *                          rendering.
- */
-export default function configureStore(initialState, history) {
-  // Installs hooks that always keep react-router and redux store in sync
-  const middleware = [thunk, routerMiddleware(history)];
-  let store;
+import {createStore, applyMiddleware, compose} from 'redux';
+import {connectRouter, routerMiddleware} from 'connected-react-router';
+import thunk from 'redux-thunk';
+import {createBrowserHistory, createMemoryHistory} from 'history';
 
-  if (isClient && isDebug) {
-    middleware.push(createLogger());
-    store = createStore(rootReducer, initialState, compose(
-      applyMiddleware(...middleware),
-      typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
-    ));
-  } else {
-    store = createStore(rootReducer, initialState, compose(applyMiddleware(...middleware), f => f));
-  }
+// A nice helper to tell us if we're on the server
+export const isServer = !(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+);
 
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept('reducers', () => {
-      const nextReducer = require('../reducers');
+export default (url = '/') => {
+    // Create a history depending on the environment
+    const history = isServer
+        ? createMemoryHistory({
+            initialEntries: [url]
+        })
+        : createBrowserHistory();
 
-      store.replaceReducer(nextReducer);
-    });
-  }
+    const enhancers = [];
 
-  return store;
-}
+    // Dev tools are helpful
+    if (isDebug && !isServer) {
+        const devToolsExtension = window.devToolsExtension;
+
+        if (typeof devToolsExtension === 'function') {
+            enhancers.push(devToolsExtension());
+        }
+    }
+
+    const middleware = [thunk, routerMiddleware(history)];
+
+    if (isClient && isDebug) {
+        middleware.push(createLogger());
+    }
+
+    const composedEnhancers = compose(
+        applyMiddleware(...middleware),
+        ...enhancers
+    );
+
+    // Do we have preloaded state available? Great, save it.
+    const initialState = !isServer ? window.__INITIAL_STATE__ : {};
+
+    // Delete it once we have it stored in a variable
+    if (!isServer) {
+        delete window.__INITIAL_STATE__;
+    }
+
+    // Create the store
+    const store = createStore(
+        connectRouter(history)(rootReducer),
+        initialState,
+        composedEnhancers
+    );
+    return {
+        store,
+        history
+    };
+};

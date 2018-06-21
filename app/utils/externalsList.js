@@ -1,5 +1,5 @@
-import BookIcon from 'material-ui-icons/Book';
-import StyleIcon from 'material-ui-icons/Style';
+import BookIcon from '@material-ui/icons/Book';
+import StyleIcon from '@material-ui/icons/Style';
 
 const externalsList = [
   {

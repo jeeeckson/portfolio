@@ -1,20 +1,21 @@
 import React from 'react';
-import {render} from 'react-dom';
 import {Provider} from 'react-redux';
-import {Router, browserHistory} from 'react-router';
-import {syncHistoryWithStore} from 'react-router-redux';
-import createRoutes from './routes';
 import * as types from './types';
 import configureStore from './store/configureStore';
 import fetchDataForRoute from './utils/fetchDataForRoute';
+import {render, hydrate} from 'react-dom';
+import Loadable from 'react-loadable';
+import {Frontload} from 'react-frontload';
+import {ConnectedRouter} from 'connected-react-router';
+import App from './pages/app/App';
 
 // Grab the state from a global injected into
 // server-generated HTML
-const initialState = window.__INITIAL_STATE__;
+let initialState = window.__INITIAL_STATE__;
 
-const store = configureStore(initialState, browserHistory);
-const history = syncHistoryWithStore(browserHistory, store);
-const routes = createRoutes(store);
+
+// Create a store and get back itself and its history object
+const {store, history} = configureStore();
 
 /**
  * Callback function handling frontend route changes.
@@ -26,8 +27,8 @@ function onUpdate() {
     // We set it to null so that every subsequent client-side navigation will
     // still trigger a fetch data.
     // Read more: https://github.com/choonkending/react-webpack-node/pull/203#discussion_r60839356
-    if (window.__INITIAL_STATE__ !== null) {
-        window.__INITIAL_STATE__ = null;
+    if (initialState !== null) {
+        initialState = null;
         return;
     }
 
@@ -38,17 +39,36 @@ function onUpdate() {
         });
 }
 
-// Router converts <Route> element hierarchy to a route config:
-// We also remove jss here instead of our app page
-// Read more https://github.com/rackt/react-router/blob/latest/docs/Glossary.md#routeconfig
-render(
+
+// Running locally, we should run on a <ConnectedRouter /> rather than on a <StaticRouter /> like on the server
+// Let's also let React Frontload explicitly know we're not rendering on the server here
+
+//onUpdate={onUpdate}
+const Application = (
     <Provider store={store}>
-        <Router history={history} onUpdate={onUpdate}>
-            {routes}
-        </Router>
-    </Provider>, document.getElementById('app'), () => {
-        const jssStyles = document.getElementById('jss-server-side');
-        if (jssStyles && jssStyles.parentNode) {
-            jssStyles.parentNode.removeChild(jssStyles);
-        }
+        <ConnectedRouter history={history}>
+            <Frontload noServerRender>
+                <App/>
+            </Frontload>
+        </ConnectedRouter>
+    </Provider>
+);
+
+const root = document.getElementById('app');
+const removeJssStyles = () => {
+    const jssStyles = document.getElementById('jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+        jssStyles.parentNode.removeChild(jssStyles);
+    }
+};
+
+if (process.env.NODE_ENV === 'production') {
+    // If we're running in production, we use hydrate to get fast page loads by just
+    // attaching event listeners after the initial render
+    Loadable.preloadReady().then(() => {
+        hydrate(Application, root, removeJssStyles);
     });
+} else {
+    // If we're not running on the server, just render like normal
+    render(Application, root, removeJssStyles);
+}

@@ -1,8 +1,9 @@
+// Express requirements
 import express from 'express';
+import Loadable from 'react-loadable';
 import 'reflect-metadata';
 import webpack from 'webpack';
 import {isDebug} from '../config/app';
-import initPassport from './init/passport';
 import initExpress from './init/express';
 import initRoutes from './init/routes';
 import renderMiddleware from './render/middleware';
@@ -64,5 +65,9 @@ createConnection({
      */
     app.get('*', renderMiddleware);
 
-    app.listen(app.get('port'));
+    // We tell React Loadable to load all required assets and start listening - ROCK AND ROLL!
+    Loadable.preloadAll().then(() => {
+        const port = app.get('port');
+        app.listen(port, console.log(`App listening on port ${port}!`));
+    });
 });

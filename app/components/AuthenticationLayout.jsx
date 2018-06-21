@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import classNames from 'classnames/bind';
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
 import styles from '../css/components/authenticationform.css';
 
 const cx = classNames.bind(styles);

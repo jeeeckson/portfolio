@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import styles from '../../css/components/landing.css';
 import video from '../../video/Ma-Vibes.mp4';
 import videoImg from '../../images/Ma-Vibes.jpg';

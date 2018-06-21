@@ -2,10 +2,10 @@
   import PropTypes from 'prop-types';
   import classNames from 'classnames/bind';
   import {Link} from 'react-router';
-  import Divider from 'material-ui/Divider';
-  import Drawer from 'material-ui/Drawer';
-  import TextField from 'material-ui/TextField';
-  import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+  import Divider from '@material-ui/core/Divider';
+  import Drawer from '@material-ui/core/Drawer';
+  import TextField from '@material-ui/core/TextField';
+  import List, { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/List';
   import commonStyles from '../css/components/sidebar.css';
 
 

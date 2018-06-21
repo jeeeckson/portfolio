@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import red from 'material-ui/colors/red';
-import indigo from 'material-ui/colors/indigo';
+import red from '@material-ui/core/colors/red';
+import indigo from '@material-ui/core/colors/indigo';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import Navigation from '../app/Navigation';
 import Message from '../../components/Message';
 import styles from '../../css/main.css';
-import Reboot from 'material-ui/Reboot';
-import createPalette from "material-ui/styles/createPalette";
-import {deepPurple} from "material-ui/colors/index";
+import createPalette from '@material-ui/core/styles/createPalette";
+import {deepPurple} from '@material-ui/core/colors/index";
+import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline";
 
 
 const cx = classNames.bind(styles);
@@ -36,7 +36,7 @@ class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <div className={cx('app')}>
-                    <Reboot/>
+                    <CssBaseline/>
                     <Navigation/>
                     <div className={cx('content-wrapper')}>
                         {this.props.children}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
 import styles from '../../css/components/profileapp.css';
 import Sidebar from '../../components/Sidebar';
 import profileList from '../../utils/profileList';

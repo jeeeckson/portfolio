@@ -1,12 +1,43 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
-import {
-    App, Dashboard, About, NotFound, Inbox,
-    Landing, Login, Signup, Settings, Lobbys, Profile,
-    ToS, UserLobbies, UserStatistics, ProfileApp, Themes,
-    Friends, Products
-}
-    from './pages';
+import {Route, Switch} from 'react-router-dom';
+import Loadable from 'react-loadable';
+import NotFound from './pages/app/NotFound';
+
+const About = Loadable({
+    loader: () => import(/* webpackChunkName: "about" */ './pages/app/Products'),
+    loading: () => null,
+    modules: ['about']
+});
+
+const Landing = Loadable({
+    loader: () => import(/* webpackChunkName: "dashboard" */ './pages/app/Landing'),
+    loading: () => null,
+    modules: ['landing']
+});
+
+const Signup = Loadable({
+    loader: () => import(/* webpackChunkName: "login" */ './pages/app/Signup'),
+    loading: () => null,
+    modules: ['singup']
+});
+const ToS = Loadable({
+    loader: () => import(/* webpackChunkName: "login" */ './pages/app/ToS'),
+    loading: () => null,
+    modules: ['tos']
+});
+
+const Lobbys = Loadable({
+    loader: () => import(/* webpackChunkName: "logout" */ './pages/app/Lobbys'),
+    loading: () => null,
+    modules: ['lobbys']
+});
+
+const Dashboard = Loadable({
+    loader: () => import(/* webpackChunkName: "logout" */ './pages/app/Dashboard'),
+    loading: () => null,
+    modules: ['dashboard']
+});
+
 
 /*
  * @param {Redux Store}
@@ -15,46 +46,12 @@ import {
  */
 
 // Should pass in store for redirect and login
-export default (store) => {
-    const requireAuth = (nextState, replace, callback) => {
-        const {user: {authenticated}} = store.getState();
-        if (!authenticated) {
-            replace({
-                pathname: '/login',
-                state: {nextPathname: nextState.location.pathname}
-            });
-        }
-        callback();
-    };
-
-    const redirectAuth = (nextState, replace, callback) => {
-        const {user: {authenticated}} = store.getState();
-        if (authenticated) {
-            replace({
-                pathname: '/'
-            });
-        }
-        callback();
-    };
+export default function createStore() {
     return (
-        <Route path="/" component={App}>
-            <IndexRoute component={Landing}/>
-            <Route path="dashboard" component={Dashboard}/>
-            <Route path="about" component={Products}/>
-            <Route path="login" component={Login}/>
-            <Route path="register" component={Signup}/>
-            <Route path="lobbys" component={Lobbys}/>
-            <Route path="terms" component={ToS}/>
-            <Route path="profile" component={ProfileApp} onEnter={requireAuth}>
-                <IndexRoute component={Profile}/>
-                <Route path="lobby" component={UserLobbies} onEnter={requireAuth}/>
-                <Route path="statistics" component={UserStatistics} onEnter={requireAuth}/>
-                <Route path="inbox" component={Inbox} onEnter={requireAuth}/>
-                <Route path="settings" component={Settings} onEnter={requireAuth}/>
-                <Route path="friends" component={Friends} onEnter={requireAuth}/>
-                <Route path="theme" component={Themes} onEnter={requireAuth}/>
-            </Route>
-            <Route path="*" component={NotFound}/>
-        </Route>
+        <Switch>
+            <Route path="/" exact component={Landing}/>
+        </Switch>
     );
 };
+
+

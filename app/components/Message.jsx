@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
-import Snackbar from 'material-ui/Snackbar';
-import Button from 'material-ui/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import Button from '@material-ui/core/Button';
 import styles from '../css/components/messages.css';
 import { dismissMessage } from '../actions/message';
 

@@ -5,9 +5,9 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-} from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
-import Tooltip from 'material-ui/Tooltip';
+} from '@material-ui/core/Table';
+import Checkbox from '@material-ui/core/Checkbox';
+import Tooltip from '@material-ui/core/Tooltip';
 
 class EnhancedTableHead extends Component {
   static propTypes = {

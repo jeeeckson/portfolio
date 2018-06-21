@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Send from 'material-ui-icons/Send';
+import Send from '@material-ui/icons/Send';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {signUp, signUpMismatch} from '../../actions/users';

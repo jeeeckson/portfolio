@@ -1,11 +1,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import path from 'path';
 import flash from 'express-flash';
 import methodOverride from 'method-override';
 import gzip from 'compression';
 import helmet from 'helmet';
 import {ENV} from '../../config/env';
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
+import path from 'path';
+import compression from 'compression';
 
 export default (app) => {
     app.set('port', (process.env.PORT || 3000));
@@ -16,6 +19,9 @@ export default (app) => {
         app.use(helmet());
     }
 
+    app.use(compression());
+    app.use(morgan('dev'));
+    app.use(cookieParser());
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
     app.use(methodOverride());

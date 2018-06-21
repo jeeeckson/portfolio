@@ -1,7 +1,6 @@
 import React from 'react';
 import 'react-dates/initialize';
-import TextField from 'material-ui/TextField';
-import moment from "moment";
+import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 
 export const Row = styled.div`
