@@ -1,8 +1,18 @@
-# Server Side  Rendering + Node / React / Redux / Mysql / Typeorm
-
-# Features / To Do List
-
 ### Portfolio
+
+This fires up the development server on port `3000`.
+
+The react app's entry point is `src/shared/App.js` and the express
+server is started from `src/index.js`.
+
+## License
+MIT
+
+## Contributing
+If there are any ideas or optimizations to improve this template,
+feel free to submit a pull request including your documented changes.
+
+# Server Side  Rendering + Node / React / Redux / Mysql / Typeorm
 
 - Set up index.js [Entry point], webpack-2 files for production and development environment
 - Set up webpack hot reloader
