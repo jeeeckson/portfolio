@@ -19,9 +19,13 @@ export default class ChatContainer extends Component {
     }
 
     componentDidMount() {
-        const {socket} = this.props;
-        socket.emit(COMMUNITY_CHAT, this.resetChat)
+        this.addPublicChat();
     }
+
+    addPublicChat = () => {
+        const {socket} = this.props;
+        socket.emit(COMMUNITY_CHAT, this.resetChat);
+    };
 
     addPrivateChat = ({sender, receiver}) => {
         const {socket} = this.props;
@@ -147,6 +151,7 @@ export default class ChatContainer extends Component {
                     users={users}
                     user={user}
                     activeChat={activeChat}
+                    addPublicChat={this.addPublicChat}
                     setActiveChat={this.setActiveChat}
                     addPrivateChat={this.addPrivateChat}
                 />

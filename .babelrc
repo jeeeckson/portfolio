@@ -1,0 +1,24 @@
+{
+  "presets": [
+    "env",
+    "stage-0",
+    "react"
+  ],
+  "plugins": [
+    [
+      "transform-assets-import-to-string",
+      {
+        "baseDir": "static",
+        "baseUri": "/"
+      },
+      [
+        "babel-plugin-styled-components",
+        {
+          "ssr": true,
+          "displayName": true
+        }
+      ],
+      "syntax-dynamic-import"
+    ]
+  ]
+}

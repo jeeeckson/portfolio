@@ -4,7 +4,7 @@ import {Chip, Button} from '@material-ui/core/';
 export default class SideBar extends Component {
 
     render() {
-        const {users, activeChat, user, setActiveChat, logout, addPrivateChat} = this.props;
+        const {users, activeChat, user, setActiveChat, logout, addPrivateChat, addPublicChat} = this.props;
         let chatUserList = users;
         if(!chatUserList.filter(userChat => userChat.name==="Community").map(o=>o).length){
             chatUserList.push({id: '1', name: "Community"});
@@ -45,7 +45,11 @@ export default class SideBar extends Component {
                                         label={userOnline.name}
                                         className={`user ${classNames}`}
                                         onClick={() => {
-                                            addPrivateChat({sender: user, receiver: userOnline});
+                                            if (userOnline.name === "Community"){
+                                                addPublicChat()
+                                            } else {
+                                                addPrivateChat({sender: user, receiver: userOnline});
+                                            }
                                         }}
                                     />
                                 )

@@ -11,7 +11,7 @@ const {createUser, createMessage, createChat} = require('./Factories');
 
 let connectedUsers = {};
 
-let communityChat = createChat();
+let chats = [];
 
 module.exports = (io) => {
 
@@ -59,12 +59,19 @@ module.exports = (io) => {
             connectedUsers = removeUser(connectedUsers, socket.user.name);
             io.emit(USER_DISCONNECTED, connectedUsers);
             console.log("(LOGOUT) User list connected: ", connectedUsers);
-
         });
 
         //Get Community Chat
         socket.on(COMMUNITY_CHAT, (callback) => {
-            callback(communityChat);
+            let exist = chats.filter(chat => chat.name === "Community").map(e => e);
+            let chat = {};
+            if (!exist.length) {
+                chat = createChat();
+                chats.push(chat);
+            } else {
+                chat = exist[0];
+            }
+            callback(chat);
         });
 
         socket.on(MESSAGE_SENT, ({chatId, message}) => {
@@ -82,7 +89,15 @@ module.exports = (io) => {
                 });
         */
         socket.on(PRIVATE_MESSAGE, (sender, receiver, callback) => {
-            let chat = createChat({name: '' + sender.name + '-' + receiver.name + '', users: [sender, receiver]});
+            let exist = chats.filter(chat => chat.name === (sender.name + '-' + receiver.name) || chat.name === (receiver.name + '-' + sender.name)).map(e => e);
+            let chat = {};
+            if (!exist.length) {
+                chat = createChat({name: '' + sender.name + '-' + receiver.name + '', users: [sender, receiver]});
+                chats.push(chat);
+            } else {
+                chat = exist[0];
+            }
+
             callback(chat);
             io.to(receiver.idComm).emit(NOTIFY_REQUEST_MESSAGE, chat);
         })
@@ -109,7 +124,11 @@ module.exports = (io) => {
     */
     const sendMessageToChat = (sender) => {
         return (chatId, message) => {
-            io.emit(`${MESSAGE_RECEIVED}-${chatId}`, createMessage({message, sender}));
+            let msg = createMessage({message, sender});
+            chats.forEach(chat => {
+                if (chat.id === chatId) chat.messages.push(msg)
+            });
+            io.emit(`${MESSAGE_RECEIVED}-${chatId}`, msg);
         }
     };
 
