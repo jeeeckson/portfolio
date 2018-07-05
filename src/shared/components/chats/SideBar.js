@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Chip, Button} from '@material-ui/core/';
+import {Chip, Button, Avatar} from '@material-ui/core/';
+import {Mail} from '@material-ui/icons/';
 
 export default class SideBar extends Component {
 
     render() {
-        const {users, activeChat, user, setActiveChat, logout, addPrivateChat, addPublicChat} = this.props;
+        const {users, activeChat, user, setActiveChat, logout, addPrivateChat, addPublicChat, chatRequest} = this.props;
         let chatUserList = users;
         if(!chatUserList.filter(userChat => userChat.name==="Community").map(o=>o).length){
             chatUserList.push({id: '1', name: "Community"});
@@ -37,16 +38,23 @@ export default class SideBar extends Component {
                     {
                         chatUserList.map((userOnline) => {
                             if (userOnline.name) {
+                                let avatar = null;
                                 const classNames = (activeChat && activeChat.id === userOnline.id) ? 'active' : '';
-
+                                const messageRequest = chatRequest.filter(req => req.name=== (user.name + '-' + userOnline.name) || req.name === (userOnline.name + '-' + user.name)).map(e => e);
+                                if (messageRequest.length){
+                                    avatar = <Avatar>
+                                        <Mail/>
+                                    </Avatar>
+                                }
                                 return (
                                     <Chip
                                         key={userOnline.id}
                                         label={userOnline.name}
+                                        avatar={avatar}
                                         className={`user ${classNames}`}
                                         onClick={() => {
                                             if (userOnline.name === "Community"){
-                                                addPublicChat()
+                                                addPublicChat();
                                             } else {
                                                 addPrivateChat({sender: user, receiver: userOnline});
                                             }

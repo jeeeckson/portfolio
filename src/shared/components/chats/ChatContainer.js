@@ -14,7 +14,8 @@ export default class ChatContainer extends Component {
         this.state = {
             chats: [],
             activeChat: null,
-            users: []
+            users: [],
+            chatRequest: []
         }
     }
 
@@ -50,7 +51,7 @@ export default class ChatContainer extends Component {
     */
     addChat = (chat, reset) => {
         const {socket} = this.props;
-        const {chats} = this.state;
+        const {chats, chatRequest} = this.state;
 
         const newChats = reset ? [chat] : [...chats, chat];
         this.setState({chats: newChats, activeChat: reset ? chat : this.state.activeChat});
@@ -60,6 +61,9 @@ export default class ChatContainer extends Component {
 
         socket.on(typingEvent, this.updateTypingInChat(chat.id));
         socket.on(messageEvent, this.addMessageToChat(chat.id));
+
+        let newChatRequest = chatRequest.filter(ex => ex.id !== chat.id).map(e => e);
+        this.setState({chatRequest: newChatRequest});
     };
 
     /*
@@ -72,7 +76,7 @@ export default class ChatContainer extends Component {
         return message => {
             const {chats} = this.state;
             let newChats = chats.map((chat) => {
-                if (chat.id === chatId && chat.messages.indexOf(message)===-1)
+                if (chat.id === chatId && chat.messages.indexOf(message) === -1)
                     chat.messages.push(message);
                 return chat
             });
@@ -132,20 +136,26 @@ export default class ChatContainer extends Component {
 
     render() {
         const {user, logout, socket} = this.props;
-        const {chats, activeChat, users} = this.state;
+        const {chats, activeChat, users, chatRequest} = this.state;
 
         socket.on(USER_CONNECTED, (users) => this.setState({users: Object.values(users)}));
-        socket.on('disconnect', (users) => this.setState({users: Object.values(users)}));
         socket.on(LOGOUT, (users) => this.setState({users: Object.values(users)}));
         socket.on(NOTIFY_REQUEST_MESSAGE, (chat) => {
             if (chats.indexOf(chat) === -1) {
-                this.addChat(chat, true);
+                let chatRequest = this.state.chatRequest;
+                let exist = chatRequest.filter(ex => ex.id === chat.id).map(e => e);
+                if (!exist.length) {
+                    chatRequest.push(chat);
+                    this.setState({chatRequest});
+                }
             }
         });
+        socket.on('disconnect', (users) => this.setState({users: Object.values(users)}));
 
         return (
             <div className="container">
                 <SideBar
+                    chatRequest={chatRequest}
                     logout={logout}
                     chats={chats}
                     users={users}
