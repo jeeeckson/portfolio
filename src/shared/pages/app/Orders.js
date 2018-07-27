@@ -7,7 +7,7 @@ import withRoot from './../../withRoot';
  * Component that displays the list of products loaded into the app.
  * This component is only available to authenticated users of the app.
  */
-class Products extends Component {
+class Orders extends Component {
 
     /**
      * Constructor with mandatory parameters.
@@ -149,4 +149,4 @@ class Products extends Component {
     }
 }
 
-export default withRoot(Products);
+export default withRoot(Orders);

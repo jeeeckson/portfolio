@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 import logger from './../../winston-configurer';
-import {userService} from "../services/userService";
+import {orderService} from "../services/orderService";
 
 /* GET user. */
-router.get('/getUserByName', (req, res) => {
+router.get('/getOrders', (req, res) => {
 
-    return userService.findUser()
+    return orderService.findOrders()
         .then((result) => {
             res.send({result});
             logger.debug('getUserByName finish correctly' );
@@ -16,9 +16,9 @@ router.get('/getUserByName', (req, res) => {
         });
 });
 /* GET user. */
-router.post('/setUser', (req, res) => {
+router.get('/getOrdersById', (req, res) => {
 
-    return userService.saveUser(req.params)
+    return orderService.findOrderById(req.query.id)
         .then((result) => {
             res.send({result});
             logger.debug('getUserByName finish correctly' );

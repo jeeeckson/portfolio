@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import Navigation from '../app/Navigation';
 import Message from '../../components/Message';
-import createPalette from '@material-ui/core/styles/createPalette";
-import {deepPurple} from '@material-ui/core/colors/index";
-import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline";
+import createPalette from '@material-ui/core/styles/createPalette';
+import {deepPurple} from '@material-ui/core/colors/index';
+import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline';
 
 
 const theme = createMuiTheme({

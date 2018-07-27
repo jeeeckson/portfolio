@@ -42,24 +42,11 @@ class Menu extends Component {
                         </ListSubheader>
                     }>
                     <Divider/>
-                    <Link to="/about">
+                    <Link to="/orders">
                         <MenuItem onClick={this.props.onItemTouchTap}>
-                            About
+                            Orders
                         </MenuItem>
                     </Link>
-                    <Divider/>
-                    <Link to="/users">
-                        <MenuItem onClick={this.props.onItemTouchTap}>
-                            Users
-                        </MenuItem>
-                    </Link>
-                    <Divider/>
-                    <Link to="/chat">
-                        <MenuItem onClick={this.props.onItemTouchTap}>
-                            Chat
-                        </MenuItem>
-                    </Link>
-                    <Divider/>
                 </List>
             </Drawer>
         );

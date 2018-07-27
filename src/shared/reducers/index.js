@@ -1,7 +1,6 @@
 import {combineReducers} from 'redux';
 import {routerReducer as routing} from 'react-router-redux';
-import user from '../reducers/user';
-import message from '../reducers/message';
+import orders from '../reducers/orders';
 import * as types from '../types';
 
 const isFetching = (state = false, action) => {
@@ -21,8 +20,7 @@ const isFetching = (state = false, action) => {
 const rootReducer = combineReducers({
     isFetching,
     routing,
-    message,
-    user
+    orders
 });
 
 export default rootReducer;

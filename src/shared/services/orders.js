@@ -1,22 +1,21 @@
-import axios from 'axios';
 import {apiEndpoint} from '../../config/app';
 import createRestApiClient from '../utils/createRestApiClient';
 
 export default () => {
     const client = createRestApiClient().withConfig({baseURL: apiEndpoint});
     return {
-        getUser: () => client.request({
+        getOrders: () => client.request({
             method: 'GET',
-            url: '/user'
+            url: '/orders'
         }),
-        getSpecificUser: (id) => client.request({
+        getOrderById: (id) => client.request({
             method: 'GET',
-            url: `/user/${id}`,
-        }),
-        updateUser: (data, id) => client.request({
+            url: `/orders/${id}`,
+        })
+        /*updateUser: (data, id) => client.request({
             method: 'PATCH',
             url: `/users/${id}`,
             data,
-        })
+        })*/
     };
 };

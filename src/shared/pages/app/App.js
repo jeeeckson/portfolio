@@ -1,4 +1,4 @@
-// The basics
+
 import React, {Component} from 'react';
 
 import Page from '../Page';

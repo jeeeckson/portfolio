@@ -58,7 +58,7 @@ class PageLayout extends Component {
             <div>
                 <div>
                     <AppBar position="static"
-                        color="default"
+                            color="default"
                     >
                         <Toolbar>
                             <IconButton
@@ -66,7 +66,7 @@ class PageLayout extends Component {
                                 aria-label="Menu"
                                 onClick={this.toggleMenu.bind(this)}
                             >
-                                <MenuIcon color="secondary" />
+                                <MenuIcon color="secondary"/>
                             </IconButton>
                             <Typography type="title" color="secondary">
                                 Portfolio

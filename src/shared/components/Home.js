@@ -14,7 +14,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                <Title>Sesale</Title>
+                <Title>View Orders</Title>
             </div>
         );
     }

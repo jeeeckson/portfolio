@@ -1,8 +1,8 @@
-import userRoute from '../routes/userRoute';
+import ordersRoute from '../routes/ordersRoute';
 
 export default (app) => {
     /*
      * User Routes
      */
-    app.use('/user', userRoute);
+    app.use('/orders', ordersRoute);
 };
