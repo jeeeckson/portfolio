@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import {USER_CONNECTED, LOGOUT} from '../../../server/Events'
 import LoginForm from '../../components/LoginForm'
 import ChatContainer from '../../components/chats/ChatContainer'
+
 const socketUrl = "http://localhost:3000";
 
 export default class Chat extends Component {
@@ -17,7 +18,7 @@ export default class Chat extends Component {
     }
 
     componentWillMount() {
-        this.initSocket()
+        this.initSocket();
     }
 
     /*
@@ -27,20 +28,27 @@ export default class Chat extends Component {
         const socket = io(socketUrl);
 
         socket.on('connect', () => {
+            if (localStorage) {
+                let user = localStorage.getItem("log_user");
+                if (user && user.length) {
+                    this.setUser(JSON.parse(user));
+                }
+            }
             console.log("Connected");
         });
 
-        this.setState({socket})
+        this.setState({socket});
     };
 
-    /*
-    * 	Sets the user property in state
-    *	@param user {id:number, name:string}
-    */
+    /**
+     * Sets the user property in state
+     * @param user {object} : {id:number, name:string, idComm:string}
+     */
     setUser = (user) => {
         const {socket} = this.state;
         socket.emit(USER_CONNECTED, user);
-        this.setState({user})
+        this.setState({user});
+        localStorage.setItem("log_user", JSON.stringify(user));
     };
 
     /*
@@ -49,12 +57,12 @@ export default class Chat extends Component {
     logout = () => {
         const {socket} = this.state;
         this.setState({user: null});
-        socket.emit(LOGOUT, {})
+        socket.emit(LOGOUT, {});
+        localStorage.setItem("log_user", "");
     };
 
 
     render() {
-        const {title} = this.props;
         const {socket, user} = this.state;
         return (
             <div className="container">

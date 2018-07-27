@@ -9,21 +9,20 @@ export class userRepository {
      * Save a new user into the database.
      * @param newUser {object} : Object with the new user information, cannot be null.
      */
-    static saveUser(newUser) {
+    static saveAndEditUser(newUser) {
         const user = new User(newUser.username, newUser.password, newUser.admin);
         const userRepo = getManager().getRepository(User);
         const userEntity = userRepo.create(user);
 
         return userRepo.createQueryBuilder("user")
-            .where("user.handle = :handle")
-            .setParameter("handle", newUser.handle)
+            .where("user.username = :username")
+            .setParameter("username", newUser.username)
             .getOne()
             .then((result) => {
                 if (result) {
                     //We are updating, set the id and overwrite the whole product.
                     userEntity.id = result.id;
                 }
-                userEntity.handle = newUser.handle;
                 userEntity.password = newUser.password;
                 userEntity.username = newUser.username;
                 userEntity.admin = !!newUser.admin ? 1 : 0;
@@ -37,16 +36,43 @@ export class userRepository {
 
     /**
      * Save a new user into the database.
-     * @param handle {object} : Object with the new user information, cannot be null.
-     * @param userName {string} : Object with the new user information, cannot be null.
-     * @param status {string} : Object with the new user information, cannot be null.
+     * @param infoUser {object} : Object with the new user information, cannot be null.
      */
-    static updateUserByHandle(handle, userName, status) {
+    static isUser(infoUser) {
         const userRepo = getManager().getRepository(User);
 
         return userRepo.createQueryBuilder("user")
-            .where("user.handle = :handle")
-            .setParameter("handle", handle)
+            .where("user.username = :username")
+            .setParameter("username", infoUser.username)
+            .getOne();
+    }
+
+    /**
+     * Save a new user into the database.
+     * @param infoUser {object} : Object with the new user information, cannot be null.
+     */
+    static signInUser(infoUser) {
+        const userRepo = getManager().getRepository(User);
+
+        return userRepo.createQueryBuilder("user")
+            .where("user.username = :username AND user.password = :password")
+            .setParameter("username", infoUser.username)
+            .setParameter("password", infoUser.password)
+            .getOne();
+    }
+
+    /**
+     * Save a new user into the database.
+     * @param username {object} : Object with the new user information, cannot be null.
+     * @param userName {string} : Object with the new user information, cannot be null.
+     * @param status {string} : Object with the new user information, cannot be null.
+     */
+    static updateUserByHandle(username, userName, status) {
+        const userRepo = getManager().getRepository(User);
+
+        return userRepo.createQueryBuilder("user")
+            .where("user.username = :username")
+            .setParameter("username", username)
             .getOne()
             .then((result) => {
                 result.friends.forEach(friend => {
@@ -64,15 +90,15 @@ export class userRepository {
 
     /**
      * Save a new user into the database.
-     * @param handle {object} : Object with the new user information, cannot be null.
+     * @param username {object} : Object with the new user information, cannot be null.
      * @param friend {object} : Object with the new user information, cannot be null.
      */
-    static updateUserByHandleAddFriend(handle, friend) {
+    static updateUserByHandleAddFriend(username, friend) {
         const userRepo = getManager().getRepository(User);
 
         return userRepo.createQueryBuilder("user")
-            .where("user.handle = :handle")
-            .setParameter("handle", handle)
+            .where("user.username = :username")
+            .setParameter("username", username)
             .getOne()
             .then((result) => {
                 result.friends.push(friend);
@@ -86,15 +112,15 @@ export class userRepository {
 
     /**
      * Save a new user into the database.
-     * @param handle {object} : Object with the new user information, cannot be null.
+     * @param username {object} : Object with the new user information, cannot be null.
      * @param userNameFriend {object} : Object with the new user information, cannot be null.
      */
-    static updateUserByHandleQuitFriend(handle, userNameFriend) {
+    static updateUserByHandleQuitFriend(username, userNameFriend) {
         const userRepo = getManager().getRepository(User);
 
         return userRepo.createQueryBuilder("user")
-            .where("user.handle = :handle")
-            .setParameter("handle", handle)
+            .where("user.username = :username")
+            .setParameter("username", username)
             .getOne()
             .then((result) => {
                 let newList = [];
@@ -112,6 +138,18 @@ export class userRepository {
             });
     }
 
+    /**
+     *
+     * @param dataUser {object} the user object, cannot be null.
+     * @returns {Promise} The result.
+     */
+    static saveUser(dataUser) {
+        const user = new User(dataUser.username, dataUser.password, dataUser.name, dataUser.lastName, false);
+        const userRepo = getManager().getRepository(User);
+        const userEntity = userRepo.create(user);
+
+        return userRepo.save(userEntity);
+    }
 
     /**
      *
@@ -148,13 +186,13 @@ export class userRepository {
 
     /**
      *
-     * @param handle {String} the user name, cannot be null.
+     * @param username {String} the user name, cannot be null.
      * @returns {Promise} The result.
      */
-    static findUserByHandle(handle) {
+    static findUserByUsername(username) {
         const userRepo = getManager().getRepository(User);
-        return userRepo.createQueryBuilder("user").where("user.handle = :handle")
-            .setParameter("handle", handle)
+        return userRepo.createQueryBuilder("user").where("user.username = :username")
+            .setParameter("username", username)
             .getOne()
             .then((result) => {
                 return result;

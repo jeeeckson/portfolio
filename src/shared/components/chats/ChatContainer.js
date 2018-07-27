@@ -141,10 +141,14 @@ export default class ChatContainer extends Component {
         socket.on(USER_CONNECTED, (users) => this.setState({users: Object.values(users)}));
         socket.on(LOGOUT, (users) => this.setState({users: Object.values(users)}));
         socket.on(NOTIFY_REQUEST_MESSAGE, (chat) => {
+            const {chats, activeChat} = this.state;
+            console.log(activeChat)
             if (chats.indexOf(chat) === -1) {
                 let chatRequest = this.state.chatRequest;
-                let exist = chatRequest.filter(ex => ex.id === chat.id).map(e => e);
-                if (!exist.length) {
+                let exist = chatRequest.filter(ex => {
+                    return ex.id === chat.id
+                }).map(e => e);
+                if (!exist.length && (!activeChat || chat.id !== activeChat.id)) {
                     chatRequest.push(chat);
                     this.setState({chatRequest});
                 }

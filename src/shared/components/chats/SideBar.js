@@ -7,7 +7,7 @@ export default class SideBar extends Component {
     render() {
         const {users, activeChat, user, setActiveChat, logout, addPrivateChat, addPublicChat, chatRequest} = this.props;
         let chatUserList = users;
-        if(!chatUserList.filter(userChat => userChat.name==="Community").map(o=>o).length){
+        if (!chatUserList.filter(userChat => userChat.name === "Community").map(o => o).length) {
             chatUserList.push({id: '1', name: "Community"});
         }
 
@@ -31,17 +31,14 @@ export default class SideBar extends Component {
                 <div
                     className="users"
                     ref='users'
-                    onClick={(e) => {
-                        (e.target === this.refs.user) && setActiveChat(null)
-                    }}>
-
+                    onClick={(e) => e.target === this.refs.user}>
                     {
                         chatUserList.map((userOnline) => {
                             if (userOnline.name) {
                                 let avatar = null;
                                 const classNames = (activeChat && activeChat.id === userOnline.id) ? 'active' : '';
-                                const messageRequest = chatRequest.filter(req => req.name=== (user.name + '-' + userOnline.name) || req.name === (userOnline.name + '-' + user.name)).map(e => e);
-                                if (messageRequest.length){
+                                const messageRequest = chatRequest.filter(req => req.name === (user.name + '-' + userOnline.name) || req.name === (userOnline.name + '-' + user.name)).map(e => e);
+                                if (messageRequest.length) {
                                     avatar = <Avatar>
                                         <Mail/>
                                     </Avatar>
@@ -53,7 +50,7 @@ export default class SideBar extends Component {
                                         avatar={avatar}
                                         className={`user ${classNames}`}
                                         onClick={() => {
-                                            if (userOnline.name === "Community"){
+                                            if (userOnline.name === "Community") {
                                                 addPublicChat();
                                             } else {
                                                 addPrivateChat({sender: user, receiver: userOnline});

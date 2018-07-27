@@ -1,36 +1,42 @@
 import React, {Component} from 'react';
 import {VERIFY_USER} from '../../server/Events'
-import TextField from '@material-ui/core/TextField';
+import {TextField, Button} from '@material-ui/core/';
+import Register from "../pages/app/Register";
 
 export default class LoginForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            nickname: "",
-            error: ""
+            username: "",
+            password: "",
+            error: "",
+            modeRegister: false
         };
     }
 
     setUser = ({user, isUser}) => {
-
-        if (isUser) {
-            this.setError("User name taken")
-        } else {
+        if (user) {
             this.setError("");
-            this.props.setUser(user)
+            this.props.setUser(user);
+        } else {
+            if (isUser) {
+                this.setError("User already connected.");
+            } else {
+                this.setError("Invalid user or password.");
+            }
         }
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
         const {socket} = this.props;
-        const {nickname} = this.state;
-        socket.emit(VERIFY_USER, nickname, this.setUser)
+        const {username, password} = this.state;
+        socket.emit(VERIFY_USER, username, password, this.setUser)
     };
 
-    handleChange = (e) => {
-        this.setState({nickname: e.target.value})
+    handleChange = (e, field) => {
+        this.setState({[field]: e.target.value})
     };
 
     setError = (error) => {
@@ -38,25 +44,40 @@ export default class LoginForm extends Component {
     };
 
     render() {
-        const {nickname, error} = this.state;
+        const {username, password, error, modeRegister} = this.state;
+        const {socket} = this.props;
         return (
             <div className="login">
-                <form onSubmit={this.handleSubmit} className="login-form">
+                {!modeRegister ?
+                    <form onSubmit={this.handleSubmit} className="login-form">
 
-                    <TextField
-                        inputRef={(input) => {
-                            this.textInput = input
-                        }}
-                        label="Got a nickname?"
-                        type="text"
-                        id="nickname"
-                        value={nickname}
-                        onChange={this.handleChange}
-                        placeholder={'Username'}
+                        <TextField
+                            label="Got a username?"
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={e => this.handleChange(e, "username")}
+                            placeholder={'Username'}
+                        />
+                        <TextField
+                            label="Password"
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={e => this.handleChange(e, "password")}
+                            placeholder={'Password'}
+                        />
+                        <div className="error">{error ? error : null}</div>
+                        <Button onClick={this.handleSubmit}>Sign in</Button>
+                        <Button onClick={() => this.setState({modeRegister: true})}>Sign me</Button>
+
+                    </form>
+                    :
+                    <Register
+                        socket={socket}
+                        onClose={() => this.setState({modeRegister: false, error: "User registered successful."})}
                     />
-                    <div className="error">{error ? error : null}</div>
-
-                </form>
+                }
             </div>
         );
     }

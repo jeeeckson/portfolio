@@ -17,15 +17,19 @@ var User = /** @class */ (function () {
      * Any parameter cannot be null.
      * @param username {string}   name of the user, cannot be null.
      * @param password {string}  password of the user, cannot be null.
+     * @param name {string}   name of the user, cannot be null.
+     * @param lastName {string}   name of the user, cannot be null.
      * @param admin {boolean}  specify if is admin or user, cannot be null.
      */
-    function User(username, password, admin) {
+    function User(username, password, name, lastName, admin) {
         if (!arguments.length) {
             return;
         }
         this.friends = [];
         this.username = username;
         this.password = password;
+        this.name = name;
+        this.lastName = lastName;
         this.admin = admin ? 1 : 0;
     }
     __decorate([
@@ -61,9 +65,6 @@ var User = /** @class */ (function () {
     __decorate([
         Column("text", { nullable: true })
     ], User.prototype, "city");
-    __decorate([
-        Column("text")
-    ], User.prototype, "handle");
     __decorate([
         Column("simple-array", { nullable: true })
     ], User.prototype, "friends");

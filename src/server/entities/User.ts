@@ -75,12 +75,6 @@ export class User {
     city: string;
 
     /**
-     * City of user, cannot be null.
-     */
-    @Column("text")
-    handle: string;
-
-    /**
      * The friends from users, never null.
      */
     @Column("simple-array", {nullable: true})
@@ -92,15 +86,19 @@ export class User {
      * Any parameter cannot be null.
      * @param username {string}   name of the user, cannot be null.
      * @param password {string}  password of the user, cannot be null.
+     * @param name {string}   name of the user, cannot be null.
+     * @param lastName {string}   name of the user, cannot be null.
      * @param admin {boolean}  specify if is admin or user, cannot be null.
      */
-    constructor(username: string, password: string, admin: boolean) {
+    constructor(username: string, password: string, name: string, lastName: string, admin: boolean) {
         if (!arguments.length) {
             return;
         }
         this.friends = [];
         this.username = username;
         this.password = password;
+        this.name = name;
+        this.lastName = lastName;
         this.admin = admin ? 1 : 0;
     }
 
